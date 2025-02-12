@@ -1,0 +1,219 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    /* Reset some default styles for consistency */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Main login container */
+    .login-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      height: 350px;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Logo styling */
+    .logo {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Title */
+    .login-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Form group for inputs */
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    /* Input fields */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    /* Button */
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Popup message styling */
+    .popup-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4CAF50; /* default green for success */
+      color: white;
+      padding: 15px 30px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-size: 18px;
+      display: none;
+    }
+
+    /* Message area (for inline errors, if needed) */
+    .message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #d9534f;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 20px;
+      }
+      .login-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Global popup message (hidden by default) -->
+  <div id="popup-message" class="popup-message"></div>
+
+  <div class="login-container">
+    <!-- Centered Logo -->
+    <img class="logo" src="{% static 'myapp/img/L&T.png' %}" alt="Logo" width="250" height="100">
+
+    <!-- Login Form -->
+    <form id="login-form" style="width: 100%; text-align: left;">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required>
+      </div>
+      
+      <button type="submit" class="login-btn" id="login-button">Login</button>
+    </form>
+    <p style="margin-top: 20px; font-size: 14px;">
+        Not already a user? <a href="{% url 'register' %}" style="text-decoration: none; font-weight: bold; color: #007BFF;">Register here</a>
+      </p>
+    <!-- Inline message area (optional) -->
+    <p id="login-message" class="message"></p>
+  </div>
+
+  <script>
+    // Function to display a popup message at the top of the page.
+    function showPopupMessage(message, type = 'success') {
+      var popup = document.getElementById('popup-message');
+      // Set background color based on type (success or error)
+      if (type === 'success') {
+        popup.style.backgroundColor = '#4CAF50';
+      } else if (type === 'error') {
+        popup.style.backgroundColor = '#d9534f';
+      }
+      popup.innerText = message;
+      popup.style.display = 'block';
+      // Automatically hide after 3 seconds
+      setTimeout(function() {
+        popup.style.display = 'none';
+      }, 500);
+    }
+
+    document.getElementById('login-button').addEventListener('click', function(event) {
+      event.preventDefault();  // Prevent default form submission
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Send login data as JSON to the server
+      fetch('https://1dc1-60-243-70-152.ngrok-free.app', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // If login is successful, data.message should be set
+        if (data.message) {
+          // Show success popup message
+          showPopupMessage(data.message, 'success');
+          // Optionally, redirect after a short delay if a redirect_url is provided
+          if (data.redirect_url) {
+            setTimeout(function() {
+              window.location.href = data.redirect_url;
+            }, 2000);  // Adjust the delay as needed
+          }
+        } else {
+          // Show error popup message if login failed
+          showPopupMessage('Login failed: ' + data.error, 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showPopupMessage('An error occurred during login.', 'error');
+      });
+    });
+  </script>
+</body>
+</html>

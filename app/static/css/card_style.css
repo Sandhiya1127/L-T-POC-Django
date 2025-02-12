@@ -1,0 +1,98 @@
+/* ---------- MAIN ---------- */
+
+
+.heading {
+  position: relative; /* Ensure the container has relative positioning */
+}
+
+.heading h5 {
+  font-size: 22px;
+  color: rgb(49, 49, 49);
+  padding-left: 114px;
+  margin-bottom: 20px;
+  position: absolute;
+  top: -10px; /* Adjust this value to move the text up */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  padding: 15px;
+  right: 20px;
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  border: 2px solid #ddd; /* Border color and size */
+  width: 220px; /* Adjusted width for better content fit */
+  height: 110px; /* Adjusted height for better content fit */
+}
+
+/* Adjusting the title (h2) inside the card */
+.card h2 {
+  font-size: 17px; /* Smaller title font */
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color:  rgb(0, 0, 0);
+  margin: 0; /* Reset margin */
+  position: relative;
+  top:10px;
+  text-align: center;
+}
+
+/* Adjusting the main value (h1) inside the card */
+.card h1 {
+  font-size: 20px; /* Larger number font */
+  color: rgb(0, 0, 0);
+  margin: 0; /* Reset margin */
+  position: relative; /* Set position relative to its normal position */
+  top: 2px; /* Move text up by 10px */
+  text-align: center; /* Center the number horizontally */
+}
+
+/* Customizing individual card positions */
+.main-cards {
+  position: relative;
+}
+
+.card-1 {
+  position: absolute;
+  top: 140px;
+  left: 70px;
+  background-color: #ffffff;
+}
+
+.card-2 {
+  position: absolute;
+  top: 140px;
+  left: 350px;
+  background-color: #ffffff;
+}
+
+.card-3 {
+  position: absolute;
+  top: 300px;
+  left: 70px;
+  background-color: #ffffff;
+}
+
+.card-4 {
+  position: absolute;
+  top: 300px;
+  left: 350px;
+  background-color:#ffffff;
+}
+
+.card-5 {
+  position: absolute;
+  top: 140px;
+  left: 830px;
+  background-color:#ffffff;
+}
+
+.card-6 {
+  position: absolute;
+  top: 140px;
+  left: 1020px;
+  background-color:#ffffff;
+}
+

@@ -1,0 +1,553 @@
+{% load static %}
+<!-- <img src="{% static 'myapp/img/image1.jpg' %}" alt="Image 1"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cage Performance Summary</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+    <script src="{% static 'scripts.js/d3/bullet.js' %}"></script>
+    <link href="{% static 'css/d3-style.css' %}" rel="stylesheet" />
+
+   
+    <script src="{% static 'scripts.js/apex/generic.js' %}"></script>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <!-- <script src="./js/d3/bullet.js"></script> -->
+    <!-- <link href="./css/d3-style.css" rel="stylesheet" /> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/d3@7"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- <script src="./js/apex/generic.js"></script> -->
+
+    <!-- <link href="./css/bootstrap.min.css" rel="stylesheet" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- <link href="./css/style.css" rel="stylesheet" /> -->
+    <!-- <script src="./js/jsonviewer.js"></script> -->
+    <!-- <script src="./js/bootstrap.min.js"></script> -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+
+    <script src="{% static 'scripts.js/jsonviewer.js' %}"></script>
+    <script src="{% static 'scripts.js/bootstrap.min.js' %}"></script>
+
+    
+    <style>
+/* Ensure body does not allow horizontal scrolling */
+/* Ensure body does not allow horizontal scrolling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white !important;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    width: 100%;
+    min-height: 100vh; /* Ensure full height */
+}
+.container {
+    width: 100%;
+    min-height: 100vh; /* Ensure it takes full screen */
+    background-color: white;
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    margin: 0;
+}
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Cards section on the left */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 48%;
+}
+
+
+/* Card styling */
+.card {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card h1 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.card h2 {
+    font-size: 18px;
+    font-weight: 550;
+    margin: 5px 0;
+}
+
+/* Chart on the right */
+#chartDiv {
+    width: 48%; /* Right side width */
+    height: 300px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Table container below cards & chart */
+/* #table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+} */
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid-container, #chartDiv {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    th, td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+
+
+/* Responsive adjustments */
+/* @media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    #chartDiv {
+        width: 100%;
+        max-width: none;
+    }
+
+    th, td {
+        font-size: 12px; /* Smaller text on mobile */
+        /* padding: 8px; */
+    /* } */
+/* } */ */
+
+
+/* .card {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    height: 50px; /* Reduced height */
+    /* display: flex; */
+    /* flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+} */ */
+/* 
+.card:hover {
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.3);
+} */
+/* 
+.card h1 {
+    font-size: 14px; 
+    margin: 5px 0;
+}
+
+.card h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0;
+} */
+
+
+/* Header Container */
+
+
+
+/* Title Styling */
+
+
+
+
+        /* Right side - Chart */
+        /* #chartDiv {
+            width: 48%;
+            height: 300px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        } */
+
+        /* Table */
+        #table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+/* @media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid-container, #chartDiv {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 12px;
+        padding: 8px;
+    }
+} */
+/* 
+        .header-container {
+    /* width: 100%; */
+    /* height: 80px; */
+    /* background-color: #f8f9fa; Light gray background */
+    /* padding: 10px 0; */
+    /* border-bottom: 3px solid steelblue !important; Steel blue bottom border */
+/* } */ 
+
+.header-container {
+    width: 100%;
+    height: 70px;
+    background-color: #f8f9fa; 
+    padding: 10px 0;
+    border-bottom: 3px solid steelblue !important;
+}
+
+
+/* Apply margin-left to shift the title */
+.custom-header {
+    margin-left: 70px; /* Moves the entire container to the right */
+}
+
+/* Title styling: Lightly bold */
+/* .custom-header-title {
+    font-size: 25px; 
+    font-weight: 545; 
+    line-height: 1.2;
+    font-family: Arial, Helvetica, sans-serif; 
+    color: #212529; 
+    white-space: nowrap; 
+} */
+
+/* L&T Site Administration title */
+/* .header-content { */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* margin-left: 60px; */
+    /* align-items: center; */
+/* } */
+/* 
+/* /* 
+
+/* 
+.header-content a {
+    text-decoration: none;
+    color: #212529; 
+
+} */
+/* 
+.header-content h4 {
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "Helvetica Neue", Arial, sans-serif; /* Matching font from example */
+/* } */ */
+
+/* .header-content h4 {
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+} */
+/* 
+
+/* .custom-header-title {
+} */
+/* 
+.header-content { 
+    margin-top: 50px;
+    margin-left: 60px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "Helvetica Neue", Arial, sans-serif; /* Matching font from example */
+    /* color: #212529;  */
+    /* text-decoration: none; */
+/* }  */
+
+/* .header-content a {
+    text-decoration: none;
+    color: #212529; 
+} */
+
+/* .header-content h4 {
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "Helvetica Neue", Arial, sans-serif; /* Matching font from example */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center;  */
+/* Ensure text-dark works properly */
+.text-dark {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-dark-rgb, 33, 37, 41), var(--bs-text-opacity)) !important;
+}
+
+/* Reset box-sizing for consistency */
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+    <div class="p-2 ps-0 flex-grow-1 custom-header">
+        <a class="text-dark" style="text-decoration: none">
+            <h4 class="custom-header-title" style="font-size: 23px; font-weight:549px; color: #212529; font-family: Arial, Helvetica, sans-serif;">L&amp;T site work management</h4>
+        </a>
+    </div>
+</div>
+    
+    
+
+    <!-- <div class="mb-4 bg-light p-2" style="border-bottom: 3px solid steelblue !important">
+        <div class="d-flex container">
+            <div class="p-2 ps-0 flex-grow-1">
+                <a class="text-dark" style="text-decoration: none">
+                    <h4>L&T site work management</h4>
+                </a>
+                
+            </div>
+        </div>
+    </div> -->
+
+
+<div class="container">
+
+        <h6 style="font-weight: bolder; font-size: 17px; margin-left: -13px;">Reinforcement Cage Preparation</h6>
+        <br>
+
+        <!-- Cards and Chart Section -->
+        <div class="content-wrapper">
+            <!-- Left Side - Cards -->
+            <div class="grid-container">
+                <div class="card card-1">
+                    <h2>Total Hours</h2>
+                    <h2>789</h2>
+                </div>
+                <div class="card card-2">
+                    <h2>Active Hours</h2>
+                    <h2>745</h2>
+                </div>
+                <div class="card card-3">
+                    <h2>Avg Workers/day</h2>
+                    <h2>8</h2>
+                </div>
+                <div class="card card-4">
+                    <h2>Productivity</h2>
+                    <h2>94 %</h2>
+                </div>
+            </div>
+
+            <!-- Right Side - Chart -->
+            <div id="chartDiv"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- Table Section -->
+        <div id="table-container"></div>
+</div>
+
+    <script src="https://code.jscharting.com/latest/jscharting.js"></script>
+    <script>
+        var chart1 = JSC.chart("chartDiv", {
+    title_label_text: "Cage Summary",
+    legend_visible: false,
+    defaultAxis_defaultTick_gridLine_width: 0,
+    yAxis: [
+        { 
+            id: "a1", 
+            scale_range_max: 300, 
+            label_text: "Hours", // Left side label
+            defaultTick_label_style_fontSize: 14
+        },
+        { 
+            id: "a2", 
+            orientation: "right", 
+            scale_range: [0, 200], 
+            defaultTick_label_text: "%value%",
+            label_text: "% Expression", // Right side label
+            defaultTick_label_style_fontSize: 14
+        }
+    ],
+    xAxis: { 
+        crosshair_enabled: true,
+        label_text: "Cage" // Label below the chart
+    },
+    series: [
+        {
+            type: "column",
+            yAxis: "a1",
+            defaultPoint_tooltip: "<b>%yValue</b>",
+            defaultPoint_color: "#4682b4",
+            points: [
+                ["01", 189], ["02", 210], ["03", 167], ["04", 177],
+                ["05", 167], ["06", 189], ["07", 210], ["08", 167],
+                ["09", 177], ["10", 167]
+            ],
+        },
+        {
+            type: "line",
+            yAxis: "a2",
+            defaultPoint_marker: { type: "circle", size: 5, outline_color: "white", outline_width: 1 },
+            points: [
+                ["01", 100], ["02", 111], ["03", 88], ["04", 93],
+                ["05", 88], ["06", 100], ["07", 111], ["08", 88],
+                ["09", 93], ["10", 88]
+            ],
+        },
+    ],
+});
+
+        function createTable(data) {
+            const container = document.getElementById("table-container");
+            container.innerHTML = "";
+
+            const table = document.createElement("table");
+            table.classList.add("table", "table-striped", "table-bordered");
+
+            const headers = [
+                "Cage ID", "Start Date", "End Date", "Planned Hours",
+                "Working Hours", "Active Hours", "Idle Hours", "Avg Workers/Day",
+                "Work Progress", "Status"
+            ];
+
+            const headerRow = document.createElement("tr");
+            headers.forEach((text) => {
+                const th = document.createElement("th");
+                th.textContent = text;
+                th.style.textAlign = "center";
+                th.style.padding = "10px";
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            data["Reinforcement Cage Preparation"].forEach((row) => {
+                const tr = document.createElement("tr");
+                row.forEach((text, index) => {
+                    const td = document.createElement("td");
+                    td.textContent = text;
+                    td.style.textAlign = "center";
+                    td.style.padding = "10px";
+
+                    if (index === 9) {
+                        if (text === "On Time") {
+                            td.style.backgroundColor = "#9EF37D";
+                        } else if (text.includes("delay")) {
+                            td.style.backgroundColor = "#F16264";
+                        } else if (text === "In Progress") {
+                            td.style.backgroundColor = "#dddddd";
+                        }
+                    }
+
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+
+            container.appendChild(table);
+        }
+
+        const tableData = {
+            "Reinforcement Cage Preparation": [
+                ["CAGE04", "2024-01-10", "2024-01-13", 189, 54, 51, 3, 6, "30%", "In Progress"],
+                ["CAGE03", "2024-01-07", "2024-01-09", 189, 170, 167, 3, 6, "100%", "On Time"],
+                ["CAGE02", "2024-01-04", "2024-01-07", 189, 218, 210, 8, 8, "100%", "21 hrs delay"],
+                ["CAGE01", "2024-01-01", "2024-01-03", 189, 195, 189, 6, 7, "100%", "On Time"],
+            ],
+        };
+
+        createTable(tableData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<!DOCTYPE html>
+<html lang="en-US">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Configuration</title>
+
+  <head>
+    <title>Upload the file : GFG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <!-- <script src="./js/d3/bullet.js"></script>
+      -->
+    <script src="{% static 'scripts.js/d3/bullet.js' %}"></script>
+    <link href="{% static 'css/d3-style.css' %}" rel="stylesheet" />
+
+   
+    <script src="{% static 'scripts.js/apex/generic.js' %}"></script>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+    <!-- <link href="./css/bootstrap.min.css" rel="stylesheet" /> -->
+      <!-- <link href="./css/d3-style.css" rel="stylesheet" /> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/d3@7"></script> -->
+    <!-- <script src="./js/apex/generic.js"></script> -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+    <!-- <link href="./css/style.css" rel="stylesheet" /> -->
+    <script src="{% static 'scripts.js/jsonviewer.js' %}"></script>
+    <script src="{% static 'scripts.js/bootstrap.min.js' %}"></script>
+    <!-- <script src="./js/jsonviewer.js"></script> -->
+    <!-- <script src="./js/bootstrap.min.js"></script> -->
+
+    <script>
+      const objects_detected_string = '{}'.split('&#34;').join('"');
+      var objects_detected = JSON.parse(objects_detected_string);
+      console.log(objects_detected);
+    </script>
+  </head>
+
+  <body>
+    <div
+      class="mb-4 bg-light p-2"
+      style="border-bottom: 3px solid steelblue !important"
+    >
+      <div class="d-flex container">
+        <div class="p-2 ps-0 flex-grow-1">
+          <a class="text-dark" style="text-decoration: none"
+            ><h4>L&T site work management</h4></a
+          >
+        </div>
+        <div class="p-2 mt-1 pe-1"></div>
+        <div class="p-2 mt-1" style="position: relative; right: -10px">
+          Administrator
+        </div>
+        <div class="p-2 mt-1 ps-1">
+          <i
+            class="bi bi-person-circle"
+            style="position: relative; right: -5px"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></i>
+
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">My Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div>
+        <div class="d-flex">
+          <div class="ps-0 flex-grow-1">
+            <h5 class="title-heading">Projects</h5>
+          </div>
+          <div class="mt-1 pe-1"></div>
+          <div class="mt-1"></div>
+          <div class="mt-1 ps-1">
+            <button
+              class="btn btn-primary lt-bg-primary btn-sm"
+              type="button"
+              class="btn btn-primary"
+              onclick="openModal('createProjectModal')"
+            >
+              <i class="ps-1 pe-1 bi bi-plus-square"></i> Add Project/Site
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Project Modal -->
+      <div
+        class="modal modal-lg show fade"
+        id="createProjectModal"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Site details
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <ul
+                class="nav nav-underline mb-3 border-bottom border-2"
+                id="pills-tab"
+                role="tablist"
+              >
+                <li class="nav-item me-2" role="presentation">
+                  <button
+                    class="nav-link text-dark fw-semibold active position-relative"
+                    id="pills-home-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-createProjectSiteInfo"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-home"
+                    aria-selected="true"
+                  >
+                    Site Info
+                  </button>
+                </li>
+                <li class="nav-item me-2" role="presentation">
+                  <button
+                    class="nav-link text-dark fw-semibold position-relative"
+                    id="pills-profile-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-createProjectFunctionality"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-profile"
+                    aria-selected="false"
+                  >
+                    Functionality
+                  </button>
+                </li>
+                <li class="nav-item me-2" role="presentation">
+                  <button
+                    class="nav-link text-dark fw-semibold position-relative"
+                    id="pills-contact-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-createProjectOutput"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-contact"
+                    aria-selected="false"
+                  >
+                    Output
+                  </button>
+                </li>
+                <li class="nav-item me-2" role="presentation">
+                  <button
+                    class="nav-link text-dark fw-semibold position-relative"
+                    id="pills-contact-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-createProjectMembers"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-contact"
+                    aria-selected="false"
+                  >
+                    Members
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content p-2 pb-0" id="pills-tabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="pills-createProjectSiteInfo"
+                  role="tabpanel"
+                  aria-labelledby="pills-home-tab"
+                >
+                  <form>
+                    <div class="mb-1">
+                      <label for="recipient-name" class="col-form-label"
+                        >Site Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="recipient-name"
+                      />
+                    </div>
+                    <div class="mb-1">
+                      <label for="recipient-name" class="col-form-label"
+                        >Site Location</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="recipient-name"
+                      />
+                    </div>
+                    <div class="mb-1">
+                      <label for="message-text" class="col-form-label"
+                        >Video Source</label
+                      >
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">rtsp://</span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="{username}:{password}@{ip}:{port}/Streaming/Channels/{channel-number}"
+                        />
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button class="btn btn-sm btn-outline-secondary">
+                          Add Source
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="pills-createProjectFunctionality"
+                  role="tabpanel"
+                  aria-labelledby="pills-profile-tab"
+                >
+                  <div class="fw-semibold mb-1">People</div>
+                  <div class="ms-3 mt-1 mb-1">
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_Identification"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Identification"
+                          >Identification</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_Performance"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Performance"
+                          >Performance</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_PPE_Analytics"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_PPE_Analytics"
+                          >PPE Analytics</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <!-- <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_Safety_Compliance"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Safety_Compliance"
+                          >Safety Compliance</label
+                        >
+                      </div> -->
+                    </div>
+                  </div>
+
+                  <div class="fw-semibold mb-1">Asset</div>
+                  <div class="ms-3 mt-1 mb-1">
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_Progress"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Progress"
+                          >Progress</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_Compliance"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Compliance"
+                          >Compliance</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="pills-createProjectOutput"
+                  role="tabpanel"
+                  aria-labelledby="pills-contact-tab"
+                >
+                  <div class="fw-semibold mb-1">Dashboard</div>
+                  <div class="ms-3 mt-1 mb-1">
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_Live_Feed"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Live_Feed"
+                          >Live Feed</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_Product_Progress"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Product_Progress"
+                          >Product Progress</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_People_Progress"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_People_Progress"
+                          >People Progress</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_Time_Series_Analysis"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Time_Series_Analysis"
+                          >Time Series Analysis</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="fw-semibold mb-1">Data Export</div>
+                  <div class="ms-3 mt-1 mb-1">
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          checked
+                          id="flexSwitchCheck_JSON"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_JSON"
+                          >JSON</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_REST_API"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_REST_API"
+                          >REST API</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_CSV"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_CSV"
+                          >CSV</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_Image_Snapshot"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Image_Snapshot"
+                          >Image Snapshot</label
+                        >
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <!-- <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheck_Video_Clips"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheck_Video_Clips"
+                          >Video Clips</label
+                        >
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="pills-createProjectMembers"
+                  role="tabpanel"
+                  aria-labelledby="pills-contact-tab"
+                >
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Member Name</th>
+                        <th>Member Id</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input class="form-control" /></td>
+                        <td><input class="form-control" /></td>
+                        <td><input class="form-control" /></td>
+                        <td>
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" />
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><input class="form-control" /></td>
+                        <td><input class="form-control" /></td>
+                        <td><input class="form-control" /></td>
+                        <td>
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" />
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-end border-0">
+                          <button class="btn btn-sm btn-outline-secondary">
+                            Add Member
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footerr mb-4">
+              <hr />
+              <div class="d-flex justify-content-center mt-2">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary me-3"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn lt-bg-primary text-white">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Project Modal -->
+
+      <!-- Project List View -->
+      <div class="row mt-4 pointer">
+        <div class="col-12">
+          <table class="table" onclick="window.open('D:/F-Drive/L&T/Dev - Web/Poc-final-page/old_ui/insights.html','_blank')">
+            <thead>
+              <tr>
+                <th class="bg-primary-subtle" style="width: 180px">
+                  Site Information
+                </th>
+                <th class="bg-primary-subtle">Functionality</th>
+                <th class="bg-primary-subtle">Output</th>
+                <th class="bg-primary-subtle">Members</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="text-dark">Semmanchery</span><br />
+                  <span class="text-secondary" style="font-size: 13px"
+                    >Shollinganallur</span
+                  ><br />
+                  <span class="text-secondary" style="font-size: 13px"
+                    >Pier Cap Manufacture</span
+                  >
+                </td>
+                <td>
+                  <a href="{% url 'insights' %}" class="badge text-bg-light border fw-normal" style="text-decoration: none;">
+                    Workforce Performance
+                  </a>
+                  <span class="badge text-bg-light border fw-normal"
+                    >PPE Analytics</span
+                  >
+                  <!-- <span class="badge text-bg-light border fw-normal"
+                    >Safety Complainces</span
+                  > -->
+                  <span class="badge text-bg-light border fw-normal"
+                    >Product Performance</span
+                  >
+                </td>
+                <td>
+                  <span class="badge text-bg-light border fw-normal">JSON</span>
+                  <span class="badge text-bg-light border fw-normal">CSV</span>
+                  <span class="badge text-bg-light border fw-normal"
+                    >REST API</span
+                  >
+                  <!-- <span class="badge text-bg-light border fw-normal"
+                    >Video clips</span
+                  > -->
+                </td>
+                <td>
+                  <span class="badge text-bg-light border fw-normal"
+                    >Anil Kumar</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >Rajan</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >Krishnan</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >Balachandar</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="text-dark">MRT Ground</span><br />
+                  <span class="text-secondary" style="font-size: 13px"
+                    >Adayar</span
+                  ><br />
+                  <span class="text-secondary" style="font-size: 13px"
+                    >Parapet Manufacture</span
+                  >
+                </td>
+                <td>
+                  <span class="badge text-bg-light border fw-normal"
+                    >Workforce Performance</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >PPE Analytics</span
+                  >
+                  <!-- <span class="badge text-bg-light border fw-normal"
+                    >Safety Complainces</span
+                  > -->
+                </td>
+                <td>
+                  <span class="badge text-bg-light border fw-normal">JSON</span>
+                  <span class="badge text-bg-light border fw-normal"
+                    >REST API</span
+                  >
+                </td>
+                <td>
+                  <span class="badge text-bg-light border fw-normal"
+                    >Sundar</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >Mahendran</span
+                  >
+                  <span class="badge text-bg-light border fw-normal"
+                    >Raj kumar</span
+                  >
+                  <span class="badge text-bg-light border fw-normal">Hari</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Project List View -->
+    </div>
+  </body>
+</html>
+
+<script>
+  var modalWindow = {
+    createProjectModal: new bootstrap.Modal(
+      document.getElementById('createProjectModal')
+    ),
+  };
+
+  function openModal(target) {
+    console.log('####');
+    modalWindow[target].show();
+  }
+</script>

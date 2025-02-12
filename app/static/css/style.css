@@ -1,0 +1,98 @@
+/* General container styling */
+.json-container {
+  background: #fafafa;
+  color: white;
+  padding: 2px;
+}
+.custom-border {
+  border-bottom: 3px solid rgb(20, 124, 209) !important;
+}
+/* Title heading styling */
+/* .title-heading { */
+  /* You can add or uncomment styles as needed */
+  /* text-decoration: underline steelblue; */
+  /* text-underline-offset: 10px; */
+  /* text-decoration: none; */
+/* } */
+
+/* Heading border styling */
+.heading-border {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding-bottom: 1px;
+  width: 80%;
+}
+
+/* Light primary background styling */
+.lt-bg-primary {
+  background-color: steelblue !important;
+  color: white;
+}
+.lt-bg-primary:hover,
+.lt-bg-primary:active {
+  background-color: rgb(51, 96, 133) !important;
+}
+
+/* Pointer cursor for interactive elements */
+.pointer {
+  cursor: pointer;
+}
+
+
+
+/* Apply persistent background color to the "Actual End Date" column */
+/* Apply a persistent background color to the "Actual End Date" cell in the 4th row */
+/* tr:nth-child(2) td:nth-child(3) {
+  background-color: whitesmoke; /* Background color for the specific cell */
+/* } */ */
+
+/* Style for the "Actual End Date" cell with hover effect */
+.actual-end-date {
+    position: relative; /* Positioning context for tooltip */
+    cursor: pointer; /* Pointer cursor to indicate interactivity */
+}
+
+/* Tooltip styling */
+.actual-end-date::after {
+    content: attr(data-tooltip); /* Use the data-tooltip attribute for tooltip content */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 120%; /* Position the tooltip above the cell */
+    background-color: #dddddd; /* Light background for tooltip */
+    color: #000000; /* Black text color */
+    min-height: 80px; /* Minimum height */
+    min-width: 180px; /* Minimum width */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Align text */
+    font-size: 14px; /* Adjust font size */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Change font style */
+    white-space: pre-wrap; /* Preserve spaces and line breaks */
+    z-index: 15; /* Ensure tooltip appears on top */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.2s ease-in-out; /* Smooth transition for tooltip */
+    pointer-events: none; /* Prevent tooltip from interfering with mouse events */
+    padding: 5px; /* Add padding for better readability */
+    border: 2px solid #1a1919; /* Add a border around the tooltip */
+}
+
+/* Show tooltip on hover */
+.actual-end-date:hover::after {
+    opacity: 1; /* Show tooltip on hover */
+    pointer-events: auto; /* Enable interaction with the tooltip */
+}
+
+/* Bold the "Forecasted End Date" in the tooltip */
+.actual-end-date::after strong {
+    font-weight: bold; /* Make the "Forecasted End Date" text bold */
+}
+
+/* Additional generic CSS styles */
+.heading h5 {
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    padding-left: 50px;
+    margin-bottom: 20px;
+    position: relative;
+    top: -10px; /* Moves the text up */
+}

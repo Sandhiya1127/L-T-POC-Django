@@ -1,0 +1,558 @@
+{% load static %}
+<!-- <img src="{% static 'myapp/img/image1.jpg' %}" alt="Image 1"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<!DOCTYPE html>
+<html lang="en-US">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Insights</title>
+  <head>
+
+    <script>
+      window.cagingUrl = "{% url 'caging' %}";
+      console.log("Global cagingUrl:", window.cagingUrl); // Should log something like "/caging/"
+    </script>
+    <title>Upload the file : GFG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+    <script src="{% static 'scripts.js/d3/bullet.js' %}"></script>
+    <link href="{% static 'css/d3-style.css' %}" rel="stylesheet" />
+
+   
+    <script src="{% static 'scripts.js/apex/generic.js' %}"></script>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <!-- <script src="./js/d3/bullet.js"></script> -->
+    <!-- <link href="./css/d3-style.css" rel="stylesheet" /> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/d3@7"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- <script src="./js/apex/generic.js"></script> -->
+
+    <!-- <link href="./css/bootstrap.min.css" rel="stylesheet" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- <link href="./css/style.css" rel="stylesheet" /> -->
+    <!-- <script src="./js/jsonviewer.js"></script> -->
+    <!-- <script src="./js/bootstrap.min.js"></script> -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+
+    <script src="{% static 'scripts.js/jsonviewer.js' %}"></script>
+    <script src="{% static 'scripts.js/bootstrap.min.js' %}"></script>
+
+    <script>
+      const objects_detected_string = '{}'.split('&#34;').join('"');
+      var objects_detected = JSON.parse(objects_detected_string);
+      console.log(objects_detected);
+    </script>
+  </head>
+  <style>
+    .bullet-chart-container .bar {
+    height: 20px !important; /* Adjust the height as needed */
+}
+</style>
+
+  <body>
+    <div
+      class="mb-4 bg-light p-2"
+      style="border-bottom: 3px solid steelblue !important"
+    >
+      <div class="d-flex container">
+        <div class="p-2 ps-0 flex-grow-1">
+          <a class="text-dark" style="text-decoration: none"
+            ><h4>L&T site work management</h4></a
+          >
+        </div>
+        <div class="p-2 mt-1 pe-2"></div>
+        <div class="p-2 mt-1">
+          <i class="bi bi-geo-alt"></i> Semmancheri, Chennai
+        </div>
+        <div class="p-2 mt-1 ps-1">
+          <i
+            class="bi bi-arrow-down-square"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></i>
+
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item pointer" href="#">Adayar, Chennai</a>
+            </li>
+            <li>
+              <a class="dropdown-item pointer" href="#">Thambaram, Chennai</a>
+            </li>
+
+            <li class="border-top pointer">
+              <span class="dropdown-item"
+                ><i class="bi bi-sliders"></i> Manage</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row mt-4 d-flex">
+        <!-- Left Side: Pier Progress -->
+        <div class="col-md-8 col-sm-12 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="title-heading mb-0">Pier progress</h5>
+            <div class="d-flex align-items-center">
+              <i class="bi bi-arrow-left-square me-2"></i>
+              <div>Jun 25<sup>th</sup> - Jul 1<sup>st</sup> 2024</div>
+              <i class="bi bi-arrow-right-square ms-2"></i>
+            </div>
+          </div>
+    
+          <!-- Bullet Chart Container -->
+          <div class="bullet-chart-container mt-3"></div>
+        </div>
+    
+        <!-- Right Side: Live Feed -->
+        <div class="col-md-4 col-sm-12 d-flex flex-column">
+          <div class="ps-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="title-heading mb-0">Live feed</h5>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-arrow-left-square me-2"></i>
+                <div>Camera 01</div>
+                <i class="bi bi-arrow-right-square ms-2"></i>
+              </div>
+            </div>
+    
+            <!-- Live Feed Image -->
+            <img src="{% static 'myapp/img/playback.jpg' %}" alt="Live Feed" class="img-fluid rounded mt-3" id="cam_01" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    
+        <!-- Left Side: Workforce Activity -->
+        <div class="container">
+          <div class="row mt-4 d-flex">
+            <!-- Left Side: Workforce Activity -->
+            <div class="col-md-8 col-sm-12 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="title-heading mb-0">Workforce Activity</h5>
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-arrow-left-square me-2"></i>
+                  <input
+                    type="date"
+                    id="date-input"
+                    class="form-control me-2"
+                    style="width: 150px;"
+                    onchange="load_line_chart_query(event)"
+                  />
+                  <i class="bi bi-arrow-right-square ms-2"></i>
+                </div>
+              </div>
+        
+              <!-- Line Chart Container -->
+              <div id="workforce_chart" class="mt-3"></div>
+            </div>
+        
+            <!-- Right Side: Workforce Progress -->
+            <div class="col-md-4 col-sm-12 d-flex flex-column">
+              <div class="ps-2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="title-heading mb-0">Workforce Progress</h5>
+                </div>
+        
+                <!-- Progress Chart Container -->
+                <div id="workforce_progress_chart" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+    
+        <div
+          class="col-8 border-bottomm pt-4 border-end"
+          style="height: 50px"
+        ></div>
+       
+        <div class="container">
+          <div class="row mt-4">
+            <!-- Weekly Insights Section -->
+            <div class="col-md-8 col-sm-12 border-end pt-5 position-relative">
+              <h5 class="title-heading">Weekly Insights</h5>
+              <div id="timeline_heat_chart" class="ps-4 pe-4 mt-4"></div>
+            </div>
+        
+            <!-- Summary (Initially Hidden) -->
+            <div class="col-md-4 col-sm-12 pt-5 position-relative">
+              <div class="ps-2 heatmap-summary-box" id="heatmap-summary">
+                <h5 class="title-heading">
+                  <!-- Summary: -->
+                  <span id="date-summary" class="text-secondary"></span>
+                </h5>
+                <p id="summary-content" style="text-align: justify" class="mt-3"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .measure-label {
+    display: none;
+  }
+</style>
+<!-- <script>
+  window.cagingUrl = "{% url 'caging' %}";
+</script> -->
+<script src="{% static 'scripts.js/caging.js' %}"></script>
+<script>
+(function () {
+  var heatmap_summary = document.getElementById('heatmap-summary');
+  // New: use the global variable set in the template
+//   var cagingUrl = window.cagingUrl || "/caging/";
+//  // Ensure 'caging' is defined in urls.py
+// // Django dynamically generates the URL
+
+// var data__deck_progress = [
+//     { title: 'Rebaring', ranges: [100], measures: [40, 50], markers: [0], url: "#" },
+//     { title: 'Caging', ranges: [100], measures: [30, 70], markers: [0], url: cagingUrl }, // Fallback URL // Django URL
+//     { title: 'Molding', ranges: [100], measures: [60, 70], markers: [0],  url: "#" }
+// ];
+
+
+//   function d3Bullet(selector, data) {
+//     var container = d3.select(selector);
+//     container.selectAll('*').remove(); // Clear previous chart
+
+//     var chart = d3.bullet()
+//         .width(500)
+//         .height(50);
+
+//     var svg = container.selectAll("svg")
+//         .data(data)
+//         .enter()
+//         .append("svg")
+//         .attr("class", "bullet")
+//         .attr("width", 600)
+//         .attr("height", 80)
+//         .style("cursor", d => d.url ? "pointer" : "default") // Pointer cursor for clickable bars
+//         .on("click", function (event, d) {
+//         console.log("🔍 Clicked Data:", d); // Log the entire object
+//         console.log("🔍 Redirecting to:", d.url);
+
+//         if (d.url && d.url !== "undefined") {
+//           window.location.href = d.url;
+//         } else {
+//           console.error("🚨 ERROR: URL is undefined or invalid for", d.title);
+//         }
+//       });
+
+
+//     svg.append("g")
+//         .attr("transform", "translate(10,10)")
+//         .each(function (d) {
+//             d3.select(this).call(chart);
+//         });
+
+//     // Ensure Caging is clickable
+//     svg.filter(d => d.title === "Caging")
+//         .style("cursor", "pointer")
+//         .on("click", function (event, d) {
+//             console.log("Redirecting to:", d.url);
+//             window.location.href = d.url;
+//         });
+
+//     svg.selectAll("rect")
+//         .style("cursor", d => d.url ? "pointer" : "default")
+//         .on("click", function (event, d) {
+//             if (d.url) {
+//                 console.log("Redirecting to:", d.url);
+//                 window.location.href = d.url;
+//             }
+//         });
+// }
+
+// // Call the function again with updated data
+// d3Bullet('.bullet-chart-container', data__deck_progress);
+
+
+  function playback_refresh() {
+    // const cam_01 = document.getElementById('cam_01');
+    document.getElementById('cam_01').src = "{% static 'myapp/img/playback.jpg' %}?rand=" + Math.random();
+    setTimeout(() => {
+      playback_refresh();
+    }, 10000);
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("date-input").addEventListener("change", function () {
+        load_line_chart(this.value);
+    });
+    load_line_chart(); // Load initial data
+});
+
+function load_line_chart(selectedDate = null) {
+    let apiUrl = "https://1dc1-60-243-70-152.ngrok-free.app/workforce/idle-data/";
+
+    if (selectedDate) {
+        apiUrl += `?idle_date=${selectedDate}`;
+    }
+
+    fetch(apiUrl, {
+        headers: {
+            "ngrok-skip-browser-warning": "true",
+        },
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+        const chartData = [];
+        const points = [];
+
+        for (const time in data) {
+            if (data.hasOwnProperty(time)) {
+                const [
+                    labour_count,
+                    idle_status,
+                    group_event,
+                    date,
+                    no_helmet,
+                    image_url,
+                ] = data[time];
+
+                chartData.push({
+                    x: time,
+                    y: labour_count,
+                    idle: idle_status,
+                    group: group_event,
+                    image: image_url,
+                });
+
+                let markerColor = "#4682b4"; // Default color
+                let labelText = "";
+
+                if (idle_status === "true" && group_event === "true") {
+                    markerColor = "#D32F2F"; // Red for both
+                    labelText = "Group Talking & Idle";
+                } else if (idle_status === "true") {
+                    markerColor = "#e89c0c"; // Orange for Idle
+                    labelText = "Idle";
+                } else if (group_event === "true") {
+                    markerColor = "#00897B"; // Teal for Group Talking
+                    labelText = "Group Talking";
+                }
+
+                if (labelText) {
+                    points.push({
+                        x: time,
+                        y: labour_count,
+                        marker: {
+                            size: 5,
+                            fillColor: markerColor,
+                            strokeColor: markerColor,
+                        },
+                        label: {
+                            borderColor: markerColor,
+                            style: { color: "#fff", background: markerColor },
+                            text: labelText,
+                        },
+                    });
+                }
+            }
+        }
+
+        // ✅ Pass the data to ApexCharts
+        apex_lineChart("#workforce_chart", chartData, {
+            // title: "Workforce Activity",
+            annotations: { points: points },
+        });
+    })
+    .catch((error) => {
+        console.error("Error fetching data:", error);
+    });
+}
+
+function apex_lineChart(querySelector = '', data = [], options = {}) {
+    const data_series = [];
+    const data_labels = [];
+
+    for (const entry of data) {
+        data_series.push({
+            labour_count: entry.y,
+            time: entry.x,
+            idle: entry.idle,
+            group: entry.group,
+            playback_image: entry.image,
+        });
+        data_labels.push(entry.x);
+    }
+
+    const newOptions = {
+        annotations: {
+            yaxis: (options.annotations?.yaxis) || [],
+            xaxis: (options.annotations?.xaxis) || [],
+            points: (options.annotations?.points) || [],
+        },
+        chart: {
+            height: 380,
+            type: 'line',
+            id: 'areachart-2',
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: 'smooth',
+        },
+        series: [
+            {
+                name: "Labour Count",
+                data: data_series.map((item) => item.labour_count),
+            },
+        ],
+        title: {
+            text: options.title || '',
+            align: 'left',
+        },
+        labels: data_labels,
+        tooltip: {
+            custom: function ({ dataPointIndex }) {
+                const point = data_series[dataPointIndex];
+
+                if (point.idle === "true" && point.group === "true") {
+                    return `<div style="padding:10px;">
+                        <strong>Time:</strong> ${point.time}<br />
+                        <strong>Labour Count:</strong> ${point.labour_count}<br />
+                        <strong>Status:</strong> Group Talking & Idle<br />
+                        <img src="${point.playback_image}" alt="Event Image" style="width:300px;height:auto;" />
+                    </div>`;
+                } else if (point.idle === "true") {
+                    return `<div style="padding:10px;">
+                        <strong>Time:</strong> ${point.time}<br />
+                        <strong>Labour Count:</strong> ${point.labour_count}<br />
+                        <strong>Status:</strong> Idle<br />
+                        <img src="${point.playback_image}" alt="Event Image" style="width:300px;height:auto;" />
+                    </div>`;
+                } else if (point.group === "true") {
+                    return `<div style="padding:10px;">
+                        <strong>Time:</strong> ${point.time}<br />
+                        <strong>Labour Count:</strong> ${point.labour_count}<br />
+                        <strong>Status:</strong> Group Talking<br />
+                        <img src="${point.playback_image}" alt="Event Image" style="width:300px;height:auto;" />
+                    </div>`;
+                }
+
+                return `<div style="padding:10px;">
+                    <strong>Time:</strong> ${point.time}<br />
+                    <strong>Labour Count:</strong> ${point.labour_count}<br />
+                </div>`;
+            },
+        },
+        xaxis: {
+            categories: data_labels,
+            tickAmount: 24,
+            labels: {
+                rotate: -45,
+                format: 'yyyy-MM-dd',
+            },
+        },
+        yaxis: {
+            min: 0,
+            max: Math.max(...data_series.map((item) => item.labour_count)) + 2,
+            tickAmount: 4,
+            labels: {
+                formatter: function (val) {
+                    return val ? val.toFixed(0) : 0;
+                },
+            },
+        },
+        colors: ['#4682b4'],
+    };
+
+    if (chart) {
+        chart.updateOptions(newOptions);
+        chart.updateSeries([{ data: data_series.map((item) => item.labour_count) }]);
+    } else {
+        chart = new ApexCharts(document.querySelector(querySelector), newOptions);
+        chart.render();
+    }
+}
+
+
+    function initializeDonutChart() {
+        fetch('https://1dc1-60-243-70-152.ngrok-free.app/pie/')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (Object.keys(data).length === 0) {
+        console.error('No valid data received from API.');
+        return;
+      }
+
+      // Extract values from JSON response
+      const activeValue = parseFloat(data.Active.replace('%', '').trim()) || 0;
+      const idleValue = parseFloat(data.Idle.replace('%', '').trim()) || 0;
+      const groupValue = parseFloat(data.Group.replace('%', '').trim()) || 0;
+
+      console.log("Pie Chart Data:", { activeValue, idleValue, groupValue });
+
+      // If values are all 0, prevent empty chart
+      if (activeValue === 0 && idleValue === 0 && groupValue === 0) {
+        console.warn("Pie chart values are all zero, not rendering.");
+        return;
+      }
+
+      // Prepare chart data
+      const chartData = {
+        ['Active (' + activeValue + '%)']: activeValue,
+        ['Idle (' + idleValue + '%)']: idleValue,
+        ['Group talking (' + groupValue + '%)']: groupValue,
+      };
+
+      // Render the ApexCharts donut chart
+      var options = {
+        series: [activeValue, idleValue, groupValue],
+        chart: {
+          type: 'donut',
+          height: 350
+        },
+        labels: Object.keys(chartData),
+        colors: ['#4682b4', '#e89c0c', '#00897B'],
+        legend: {
+          position: 'bottom',
+        }
+      };
+
+      var chart = new ApexCharts(document.querySelector("#workforce_progress_chart"), options);
+      chart.render();
+    })
+    .catch(error => {
+      console.error('Error fetching or processing data:', error);
+    });
+}
+
+// Call the function to load the chart
+initializeDonutChart();
+
+
+    apex_heatChart('#timeline_heat_chart');
+  })();
+</script>
